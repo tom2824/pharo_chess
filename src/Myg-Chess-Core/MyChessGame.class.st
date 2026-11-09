@@ -126,6 +126,8 @@ MyChessGame >> initializeFromFENGame: aFENGame [
 { #category : 'public' }
 MyChessGame >> move: piece to: square [
 
+	"Only legal moves are played and recorded (clicking on an empty square, or on a wrong target, does nothing)"
+	(piece canMoveTo: square) ifFalse: [ ^ self ].
 	piece moveTo: square.
 	self recordMovementOf: piece to: square
 ]

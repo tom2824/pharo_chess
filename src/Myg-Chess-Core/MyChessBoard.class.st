@@ -2,13 +2,12 @@ Class {
 	#name : 'MyChessBoard',
 	#superclass : 'BlElement',
 	#instVars : [
-		'squareMatrix',
 		'grid',
-		'selected',
 		'state',
 		'whiteColor',
 		'blackColor',
-		'game'
+		'game',
+		'enPassantSquare'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
@@ -37,7 +36,7 @@ MyChessBoard class >> new [
 { #category : 'accessing' }
 MyChessBoard >> at: coordinate [
 
-	^ grid at: coordinate ifAbsent: nil
+	^ grid at: coordinate ifAbsent: [ MyNilSquare new ]
 ]
 
 { #category : 'accessing' }
@@ -74,6 +73,19 @@ MyChessBoard >> click: aMyChessSquare [
 ]
 
 { #category : 'accessing' }
+MyChessBoard >> enPassantSquare [
+	"The square just jumped over by a pawn that made a double step on the last move (a nil square if there is none)"
+
+	^ enPassantSquare
+]
+
+{ #category : 'accessing' }
+MyChessBoard >> enPassantSquare: aSquare [
+
+	enPassantSquare := aSquare
+]
+
+{ #category : 'accessing' }
 MyChessBoard >> game [
 
 	^ game
@@ -88,7 +100,7 @@ MyChessBoard >> game: aGame [
 { #category : 'highlighting' }
 MyChessBoard >> highLightTargets: squares [
 
-	squares do: [ :sq | sq ifNotNil: #highlightTarget ]
+	squares do: #highlightTarget
 ]
 
 { #category : 'initialization' }
@@ -100,6 +112,7 @@ MyChessBoard >> initialize [
 	self whiteColor: Color orange.
 
 	state := MyUnselectedState board: self.
+	enPassantSquare := MyNilSquare new.
 	grid := Dictionary new.
 
 	self background: (BlBackground paint: Color veryVeryLightGray).
@@ -201,7 +214,7 @@ MyChessBoard >> initializeSquares [
 						          color: Color black;
 						          board: self;
 						          initialize;
-						          contents: nil;
+						          contents: MyNilPiece new;
 						          yourself ]
 				          ifFalse: [
 					          black := true.
@@ -209,7 +222,7 @@ MyChessBoard >> initializeSquares [
 						          color: Color white;
 						          board: self;
 						          initialize;
-						          contents: nil;
+						          contents: MyNilPiece new;
 						          yourself ].
 			square name: squareNotation.
 			grid at: squareNotation put: square.
@@ -220,7 +233,7 @@ MyChessBoard >> initializeSquares [
 { #category : 'accessing' }
 MyChessBoard >> pieces [
 	
-	^ children collect: [ :square | square contents ]
+	^ (children collect: [ :square | square contents ]) select: #isPiece
 ]
 
 { #category : 'accessing' }
@@ -229,23 +242,10 @@ MyChessBoard >> select: aSquare [
 	state select: aSquare
 ]
 
-{ #category : 'accessing' }
-MyChessBoard >> selected: aMyChessSquare [ 
-	
-	selected := aMyChessSquare
-]
-
 { #category : 'highlighting' }
 MyChessBoard >> unhighLightTargets: squares [
 
-	squares do: [ :sq | sq ifNotNil: #unhighlightTarget ]
-]
-
-{ #category : 'selection' }
-MyChessBoard >> unselectSelected [
-	
-	selected ifNil: [ ^ self ].
-	selected doUnselect
+	squares do: #unhighlightTarget
 ]
 
 { #category : 'accessing' }

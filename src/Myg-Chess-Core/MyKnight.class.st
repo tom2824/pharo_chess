@@ -5,6 +5,13 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'rendering' }
+MyKnight >> blackLetter [
+	"The letter drawing a black knight in the chess font"
+
+	^ 'M'
+]
+
 { #category : 'accessing' }
 MyKnight >> id [
 	
@@ -12,23 +19,17 @@ MyKnight >> id [
 ]
 
 { #category : 'rendering' }
-MyKnight >> renderPieceOn: aSquare [
-
-	^ aSquare renderKnight: self
-]
-
-{ #category : 'rendering' }
 MyKnight >> targetSquaresLegal: aBoolean [
 
 	^ {
-		  (square right ifNotNil: [ :p | p right ifNotNil: #up ]).
-		  (square right ifNotNil: [ :p | p right ifNotNil: #down ]).
-		  (square left ifNotNil: [ :p | p left ifNotNil: #up ]).
-		  (square left ifNotNil: [ :p | p left ifNotNil: #down ]).
-		  (square up ifNotNil: [ :p | p up ifNotNil: #left ]).
-		  (square up ifNotNil: [ :p | p up ifNotNil: #right ]).
-		  (square down ifNotNil: [ :p | p down ifNotNil: #left ]).
-		  (square down ifNotNil: [ :p | p down ifNotNil: #right ]) }
+		  square right right up.
+		  square right right down.
+		  square left left up.
+		  square left left down.
+		  square up up left.
+		  square up up right.
+		  square down down left.
+		  square down down right }
 		  select: [ :s |
-			  s notNil and: [ s hasPiece not or: [ s contents color ~= color ] ] ]
+			  s isOnBoard and: [ s hasPiece not or: [ s contents color ~= color ] ] ]
 ]

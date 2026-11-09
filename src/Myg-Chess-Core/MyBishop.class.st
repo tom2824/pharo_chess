@@ -5,16 +5,17 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'rendering' }
+MyBishop >> blackLetter [
+	"The letter drawing a black bishop in the chess font"
+
+	^ 'V'
+]
+
 { #category : 'accessing' }
 MyBishop >> id [
 	
 	^ 'B'
-]
-
-{ #category : 'rendering' }
-MyBishop >> renderPieceOn: aSquare [
-
-	^ aSquare renderBishop: self
 ]
 
 { #category : 'rendering' }

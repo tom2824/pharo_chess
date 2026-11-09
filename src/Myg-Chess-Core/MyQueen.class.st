@@ -6,9 +6,10 @@ Class {
 }
 
 { #category : 'rendering' }
-MyQueen >> renderPieceOn: aSquare [
+MyQueen >> blackLetter [
+	"The letter drawing a black queen in the chess font"
 
-	^ aSquare renderQueen: self
+	^ 'W'
 ]
 
 { #category : 'rendering' }

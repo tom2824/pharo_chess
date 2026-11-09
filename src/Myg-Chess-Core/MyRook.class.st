@@ -5,15 +5,16 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'rendering' }
+MyRook >> blackLetter [
+	"The letter drawing a black rook in the chess font"
+
+	^ 'T'
+]
+
 { #category : 'accessing' }
 MyRook >> id [
 	^ 'R'
-]
-
-{ #category : 'rendering' }
-MyRook >> renderPieceOn: aSquare [
-
-	^ aSquare renderRook: self
 ]
 
 { #category : 'rendering' }

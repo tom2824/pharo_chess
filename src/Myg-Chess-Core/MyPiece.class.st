@@ -31,10 +31,29 @@ MyPiece >> attackingSquares [
 	^ self legalTargetSquares
 ]
 
+{ #category : 'rendering' }
+MyPiece >> blackLetter [
+	"The letter drawing a black piece of my kind in the chess font"
+
+	^ self subclassResponsibility
+]
+
 { #category : 'path commands' }
 MyPiece >> board [
 
 	^ square board
+]
+
+{ #category : 'testing' }
+MyPiece >> canMoveTo: aSquare [
+	"Can I legally go to aSquare?"
+
+	^ self legalTargetSquares includes: aSquare
+]
+
+{ #category : 'moving' }
+MyPiece >> captureOn: aSquare [
+	"Hook: a piece captures the piece standing on the square it goes to (it is simply replaced). Some pieces capture differently: the pawn can capture en passant."
 ]
 
 { #category : 'rendering' }
@@ -47,7 +66,7 @@ MyPiece >> collectSquares: aBlock [
 MyPiece >> collectSquares: aBlock legal: shouldBeLegal [
 
 	^ self collectSquares: aBlock while: [ :aSquare |
-		  aSquare notNil and: [ shouldBeLegal ==> aSquare hasPiece not ] ]
+		  aSquare isOnBoard and: [ shouldBeLegal ==> aSquare hasPiece not ] ]
 ]
 
 { #category : 'rendering' }
@@ -62,7 +81,7 @@ MyPiece >> collectSquares: collectBlock while: untilBlock [
 		whileTrue: [ targets add: next ].
 
 	"If we can it the next piece, then add it too"
-	(next notNil and: [ next contents color ~= color ]) ifTrue: [ targets add: next ].
+	(next hasPiece and: [ next contents color ~= color ]) ifTrue: [ targets add: next ].
 
 	^ targets
 ]
@@ -101,7 +120,7 @@ MyPiece >> downLeftDiagonal [
 MyPiece >> downLeftDiagonalLegal: aBoolean [
 
 	^ self
-		  collectSquares: [ :aSquare | aSquare down ifNotNil: #left ]
+		  collectSquares: [ :aSquare | aSquare down left ]
 		  legal: aBoolean
 ]
 
@@ -115,8 +134,15 @@ MyPiece >> downRightDiagonal [
 MyPiece >> downRightDiagonalLegal: aBoolean [
 
 	^ self
-		  collectSquares: [ :aSquare | aSquare down ifNotNil: #right ]
+		  collectSquares: [ :aSquare | aSquare down right ]
 		  legal: aBoolean
+]
+
+{ #category : 'moving' }
+MyPiece >> enPassantSquareAfterMovingFrom: aSquare to: anotherSquare [
+	"Hook: only a pawn making a double step lets the opponent capture en passant. By default, there is no such square."
+
+	^ MyNilSquare new
 ]
 
 { #category : 'accessing' }
@@ -161,14 +187,28 @@ MyPiece >> legalTargetSquares [
 	^ self targetSquaresLegal: true
 ]
 
+{ #category : 'rendering' }
+MyPiece >> letter [
+	"The letter drawing me: white pieces use their id, black pieces have their own letter"
+
+	^ self isWhite
+		  ifTrue: [ self whiteLetter ]
+		  ifFalse: [ self blackLetter ]
+]
+
 { #category : 'path commands' }
 MyPiece >> moveTo: aSquare [
 
-	(self legalTargetSquares includes: aSquare) ifFalse: [ ^ self ].
+	| origin |
+	(self canMoveTo: aSquare) ifFalse: [ ^ self ].
 
+	origin := square.
+	self captureOn: aSquare.
 	square emptyContents.
 	square := aSquare.
-	aSquare contents: self
+	aSquare contents: self.
+	self board enPassantSquare:
+		(self enPassantSquareAfterMovingFrom: origin to: aSquare)
 ]
 
 { #category : 'rendering' }
@@ -181,6 +221,13 @@ MyPiece >> rightFile [
 MyPiece >> rightFileLegal: aBoolean [
 
 	^ self collectSquares: [ :aSquare | aSquare right ] legal: aBoolean
+]
+
+{ #category : 'rendering' }
+MyPiece >> renderPieceOn: aSquare [
+	"Every piece is drawn the same way: the square writes my letter"
+
+	^ aSquare renderLetter: self letter
 ]
 
 { #category : 'accessing' }
@@ -227,7 +274,7 @@ MyPiece >> upLeftDiagonal [
 { #category : 'rendering' }
 MyPiece >> upLeftDiagonalLegal: aBoolean [
 
-	^ self collectSquares: [ :aSquare | aSquare up ifNotNil: #left ] legal: aBoolean
+	^ self collectSquares: [ :aSquare | aSquare up left ] legal: aBoolean
 ]
 
 { #category : 'rendering' }
@@ -240,6 +287,13 @@ MyPiece >> upRightDiagonal [
 MyPiece >> upRightDiagonalLegal: aBoolean [
 
 	^ self
-		  collectSquares: [ :aSquare | aSquare up ifNotNil: #right ]
+		  collectSquares: [ :aSquare | aSquare up right ]
 		  legal: aBoolean
+]
+
+{ #category : 'rendering' }
+MyPiece >> whiteLetter [
+	"The letter drawing a white piece of my kind in the chess font: the same letter as in the chess notation"
+
+	^ self id
 ]
