@@ -5,7 +5,7 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'rendering' }
 MyPawn >> captureSquares [
 
 	| ahead |
@@ -16,7 +16,7 @@ MyPawn >> captureSquares [
 			  aSquare hasPiece and: [ aSquare contents color ~= color ] ] ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'rendering' }
 MyPawn >> forwardFrom: aSquare [
 
 	^ self isWhite
@@ -24,7 +24,7 @@ MyPawn >> forwardFrom: aSquare [
 		  ifFalse: [ aSquare down ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'rendering' }
 MyPawn >> forwardSquares [
 
 	| oneStep twoSteps |
