@@ -72,6 +72,19 @@ MyBoardEdgeTests >> testKnightOnTheSideMovesOnlyOnTheBoard [
 ]
 
 { #category : 'tests' }
+MyBoardEdgeTests >> testNilPieceHasNoTarget [
+
+	self assert: MyNilPiece new targetSquares isEmpty.
+	self assert: MyNilPiece new legalTargetSquares isEmpty
+]
+
+{ #category : 'tests' }
+MyBoardEdgeTests >> testNilPieceIsNotAPiece [
+
+	self deny: MyNilPiece new isPiece
+]
+
+{ #category : 'tests' }
 MyBoardEdgeTests >> testRookInCornerSlidesOnlyOnTheBoard [
 
 	| board rook |
