@@ -88,16 +88,8 @@ MyChessSquare >> contents [
 { #category : 'accessing' }
 MyChessSquare >> contents: aPiece [
 
-	| text |
 	contents := aPiece.
-
-	text := contents
-		        ifNil: [
-			        color isBlack
-				        ifFalse: [ 'z' ]
-				        ifTrue: [ 'x' ] ]
-		        ifNotNil: [ contents renderPieceOn: self ].
-	piece text: (text asRopedText
+	piece text: ((contents renderPieceOn: self) asRopedText
 			 fontSize: 48;
 			 foreground: self foreground;
 			 fontName: MyOpenChessDownloadedFont new familyName)
@@ -111,8 +103,8 @@ MyChessSquare >> down [
 
 { #category : 'asd' }
 MyChessSquare >> emptyContents [
-	
-	self contents: nil
+
+	self contents: MyNilPiece new
 ]
 
 { #category : 'accessing' }
@@ -131,8 +123,8 @@ MyChessSquare >> foreground [
 
 { #category : 'testing' }
 MyChessSquare >> hasPiece [
-	
-	^ contents isNil not
+
+	^ contents isPiece
 ]
 
 { #category : 'highlighting' }

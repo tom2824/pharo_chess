@@ -12,6 +12,14 @@ MyNilPiece >> isPiece [
 ]
 
 { #category : 'rendering' }
+MyNilPiece >> renderPieceOn: aSquare [
+
+	^ aSquare color isBlack
+		  ifFalse: [ 'z' ]
+		  ifTrue: [ 'x' ]
+]
+
+{ #category : 'rendering' }
 MyNilPiece >> targetSquaresLegal: aBoolean [
 
 	^ #(  )

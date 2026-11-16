@@ -26,6 +26,38 @@ MyBoardEdgeTests >> testBishopInCornerSlidesOnlyOnTheBoard [
 ]
 
 { #category : 'tests' }
+MyBoardEdgeTests >> testEmptySquareContentsIsNotNil [
+
+	| board |
+	board := MyChessBoard empty.
+
+	self deny: (board at: 'e4') contents isNil
+]
+
+{ #category : 'tests' }
+MyBoardEdgeTests >> testEmptySquareHasNoPiece [
+
+	| board |
+	board := MyChessBoard empty.
+
+	self deny: (board at: 'e4') contents isPiece.
+	self deny: (board at: 'e4') hasPiece
+]
+
+{ #category : 'tests' }
+MyBoardEdgeTests >> testEmptyingASquareRemovesItsPiece [
+
+	| board |
+	board := MyChessBoard empty.
+	board at: 'e4' put: MyRook white.
+
+	(board at: 'e4') emptyContents.
+
+	self deny: (board at: 'e4') hasPiece.
+	self deny: (board at: 'e4') contents isNil
+]
+
+{ #category : 'tests' }
 MyBoardEdgeTests >> testKingInCornerMovesOnlyOnTheBoard [
 
 	| board king |
@@ -82,6 +114,19 @@ MyBoardEdgeTests >> testNilPieceHasNoTarget [
 MyBoardEdgeTests >> testNilPieceIsNotAPiece [
 
 	self deny: MyNilPiece new isPiece
+]
+
+{ #category : 'tests' }
+MyBoardEdgeTests >> testPiecesOfTheBoardAreOnlyRealPieces [
+
+	| board rook king |
+	board := MyChessBoard empty.
+	board at: 'a1' put: (rook := MyRook white).
+	board at: 'h8' put: (king := MyKing black).
+
+	self
+		assertCollection: board pieces asSet
+		hasSameElements: { rook. king } asSet
 ]
 
 { #category : 'tests' }
