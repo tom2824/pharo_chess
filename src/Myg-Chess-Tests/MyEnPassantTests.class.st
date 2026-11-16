@@ -15,6 +15,34 @@ MyEnPassantTests >> testBoardHasNoEnPassantSquareInitially [
 ]
 
 { #category : 'tests' }
+MyEnPassantTests >> testCannotCaptureEnPassantFromFarAway [
+
+	| board white black |
+	board := MyChessBoard empty.
+	board at: 'a5' put: (white := MyPawn white).
+	board at: 'd7' put: (black := MyPawn black).
+
+	black moveTo: (board at: 'd5').
+
+	self deny: (white targetSquares includes: (board at: 'd6'))
+]
+
+{ #category : 'tests' }
+MyEnPassantTests >> testCannotCaptureEnPassantOneMoveLater [
+
+	| board white black rook |
+	board := MyChessBoard empty.
+	board at: 'e5' put: (white := MyPawn white).
+	board at: 'd7' put: (black := MyPawn black).
+	board at: 'a1' put: (rook := MyRook white).
+
+	black moveTo: (board at: 'd5').
+	rook moveTo: (board at: 'a2').
+
+	self deny: (white targetSquares includes: (board at: 'd6'))
+]
+
+{ #category : 'tests' }
 MyEnPassantTests >> testDoubleStepSetsEnPassantSquare [
 
 	| board pawn |
@@ -50,6 +78,19 @@ MyEnPassantTests >> testOtherPieceMoveClearsEnPassantSquare [
 ]
 
 { #category : 'tests' }
+MyEnPassantTests >> testPawnCannotCaptureOwnEnPassantSquare [
+
+	| board mover neighbour |
+	board := MyChessBoard empty.
+	board at: 'd2' put: (mover := MyPawn white).
+	board at: 'e2' put: (neighbour := MyPawn white).
+
+	mover moveTo: (board at: 'd4').
+
+	self deny: (neighbour targetSquares includes: (board at: 'd3'))
+]
+
+{ #category : 'tests' }
 MyEnPassantTests >> testSingleStepClearsEnPassantSquare [
 
 	| board pawn |
@@ -60,4 +101,17 @@ MyEnPassantTests >> testSingleStepClearsEnPassantSquare [
 	pawn moveTo: (board at: 'e3').
 
 	self assert: board enPassantSquare isNil
+]
+
+{ #category : 'tests' }
+MyEnPassantTests >> testWhitePawnCanCaptureEnPassantRightAfterDoubleStep [
+
+	| board white black |
+	board := MyChessBoard empty.
+	board at: 'e5' put: (white := MyPawn white).
+	board at: 'd7' put: (black := MyPawn black).
+
+	black moveTo: (board at: 'd5').
+
+	self assert: (white targetSquares includes: (board at: 'd6'))
 ]

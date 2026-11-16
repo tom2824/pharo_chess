@@ -23,10 +23,20 @@ MyPawn >> attackingSquares [
 ]
 
 { #category : 'rendering' }
+MyPawn >> canCaptureEnPassantOn: aSquare [
+
+	^ aSquare = self board enPassantSquare and: [
+		  aSquare file = (self isWhite
+			   ifTrue: [ $6 ]
+			   ifFalse: [ $3 ]) ]
+]
+
+{ #category : 'rendering' }
 MyPawn >> captureSquares [
 
 	^ self diagonalSquares select: [ :aSquare |
-		  aSquare hasPiece and: [ aSquare contents color ~= color ] ]
+		  (self canCaptureEnPassantOn: aSquare) or: [
+			  aSquare hasPiece and: [ aSquare contents color ~= color ] ] ]
 ]
 
 { #category : 'rendering' }
