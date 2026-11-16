@@ -162,6 +162,12 @@ MyChessSquare >> initialize [
 	self addEventHandlerOn: BlClickEvent do: [ :e | self click ]
 ]
 
+{ #category : 'testing' }
+MyChessSquare >> isOnBoard [
+
+	^ true
+]
+
 { #category : 'accessing' }
 MyChessSquare >> left [
 

@@ -117,6 +117,20 @@ MyBoardEdgeTests >> testNilPieceIsNotAPiece [
 ]
 
 { #category : 'tests' }
+MyBoardEdgeTests >> testNilSquareStaysOutsideTheBoard [
+
+	| outside |
+	outside := MyNilSquare new.
+
+	self deny: outside isOnBoard.
+	self deny: outside hasPiece.
+	self assert: outside up == outside.
+	self assert: outside down == outside.
+	self assert: outside left == outside.
+	self assert: outside right == outside
+]
+
+{ #category : 'tests' }
 MyBoardEdgeTests >> testPiecesOfTheBoardAreOnlyRealPieces [
 
 	| board rook king |
@@ -151,4 +165,13 @@ MyBoardEdgeTests >> testRookIsBlockedByAPieceAndCapturesOpponent [
 	self
 		assertSquares: rook legalTargetSquares
 		areNamed: #( 'a2' 'a3' 'b1' )
+]
+
+{ #category : 'tests' }
+MyBoardEdgeTests >> testSquaresOfTheBoardAreOnBoard [
+
+	| board |
+	board := MyChessBoard empty.
+
+	self assert: (board at: 'e4') isOnBoard
 ]
