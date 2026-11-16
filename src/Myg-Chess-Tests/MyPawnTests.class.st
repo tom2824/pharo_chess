@@ -6,6 +6,42 @@ Class {
 }
 
 { #category : 'tests' }
+MyPawnTests >> testAttackingSquaresAreDiagonalsEvenWhenEmpty [
+
+	| pawn board |
+	board := MyChessBoard empty.
+	board at: 'e4' put: (pawn := MyPawn white).
+
+	self
+		assertCollection: pawn attackingSquares
+		hasSameElements: {
+				(board at: 'd5').
+				(board at: 'f5') }
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testKingIsInCheckByPawnDiagonal [
+
+	| king board |
+	board := MyChessBoard empty.
+	board at: 'd4' put: (king := MyKing white).
+	board at: 'e5' put: MyPawn black.
+
+	self assert: king isInCheck
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testKingIsNotInCheckByPawnInFront [
+
+	| king board |
+	board := MyChessBoard empty.
+	board at: 'e4' put: (king := MyKing white).
+	board at: 'e5' put: MyPawn black.
+
+	self deny: king isInCheck
+]
+
+{ #category : 'tests' }
 MyPawnTests >> testPawnCannotCaptureSameColor [
 
 	| pawn board |
