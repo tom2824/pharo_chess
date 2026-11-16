@@ -14,9 +14,7 @@ MyNilPiece >> isPiece [
 { #category : 'rendering' }
 MyNilPiece >> renderPieceOn: aSquare [
 
-	^ aSquare color isBlack
-		  ifFalse: [ 'z' ]
-		  ifTrue: [ 'x' ]
+	^ aSquare emptyLetter
 ]
 
 { #category : 'rendering' }

@@ -38,6 +38,12 @@ MyPiece >> attackingSquares [
 	^ self legalTargetSquares
 ]
 
+{ #category : 'as yet unclassified' }
+MyPiece >> blackLetter [
+
+	^ self subclassResponsibility
+]
+
 { #category : 'path commands' }
 MyPiece >> board [
 
@@ -174,6 +180,14 @@ MyPiece >> legalTargetSquares [
 	^ self targetSquaresLegal: true
 ]
 
+{ #category : 'rendering' }
+MyPiece >> letter [
+
+	^ self isWhite
+		  ifTrue: [ self id ]
+		  ifFalse: [ self blackLetter ]
+]
+
 { #category : 'path commands' }
 MyPiece >> moveTo: aSquare [
 
@@ -185,6 +199,12 @@ MyPiece >> moveTo: aSquare [
 	square := aSquare.
 	aSquare contents: self.
 	self afterMoveFrom: origin
+]
+
+{ #category : 'rendering' }
+MyPiece >> renderPieceOn: aSquare [
+
+	^ aSquare renderLetter: self letter
 ]
 
 { #category : 'rendering' }

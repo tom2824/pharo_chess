@@ -5,16 +5,16 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'as yet unclassified' }
+MyKnight >> blackLetter [
+
+	^ 'M'
+]
+
 { #category : 'accessing' }
 MyKnight >> id [
 	
 	^ 'N'
-]
-
-{ #category : 'rendering' }
-MyKnight >> renderPieceOn: aSquare [
-
-	^ aSquare renderKnight: self
 ]
 
 { #category : 'rendering' }

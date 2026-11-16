@@ -5,10 +5,10 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
-{ #category : 'rendering' }
-MyQueen >> renderPieceOn: aSquare [
+{ #category : 'as yet unclassified' }
+MyQueen >> blackLetter [
 
-	^ aSquare renderQueen: self
+	^ 'W'
 ]
 
 { #category : 'rendering' }

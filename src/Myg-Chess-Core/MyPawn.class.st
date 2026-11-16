@@ -32,6 +32,12 @@ MyPawn >> backwardFrom: aSquare [
 		  ifFalse: [ aSquare up ]
 ]
 
+{ #category : 'as yet unclassified' }
+MyPawn >> blackLetter [
+
+	^ 'O'
+]
+
 { #category : 'rendering' }
 MyPawn >> canCaptureEnPassantOn: aSquare [
 
@@ -97,12 +103,6 @@ MyPawn >> isOnInitialRank [
 MyPawn >> removeEnPassantVictim [
 
 	(self backwardFrom: square) emptyContents
-]
-
-{ #category : 'rendering' }
-MyPawn >> renderPieceOn: aSquare [ 
-	
-	^ aSquare renderPawn: self
 ]
 
 { #category : 'rendering' }

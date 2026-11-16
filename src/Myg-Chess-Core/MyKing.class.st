@@ -26,6 +26,12 @@ MyKing >> basicTargetSquares [
 		  square down right } select: #isOnBoard
 ]
 
+{ #category : 'as yet unclassified' }
+MyKing >> blackLetter [
+
+	^ 'L'
+]
+
 { #category : 'accessing' }
 MyKing >> id [
 	
@@ -65,12 +71,6 @@ MyKing >> isKing [
 MyKing >> opponentPieces [
 
 	^ self board pieces select: [ :e | e color = color negated ]
-]
-
-{ #category : 'rendering' }
-MyKing >> renderPieceOn: aSquare [
-
-	^ aSquare renderKing: self
 ]
 
 { #category : 'rendering' }

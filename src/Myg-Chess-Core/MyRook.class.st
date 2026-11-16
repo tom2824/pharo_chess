@@ -5,15 +5,15 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'as yet unclassified' }
+MyRook >> blackLetter [
+
+	^ 'T'
+]
+
 { #category : 'accessing' }
 MyRook >> id [
 	^ 'R'
-]
-
-{ #category : 'rendering' }
-MyRook >> renderPieceOn: aSquare [
-
-	^ aSquare renderRook: self
 ]
 
 { #category : 'rendering' }
