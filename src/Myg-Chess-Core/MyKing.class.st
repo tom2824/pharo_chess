@@ -26,7 +26,7 @@ MyKing >> basicTargetSquares [
 		  square down right } select: #isOnBoard
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'rendering' }
 MyKing >> blackLetter [
 
 	^ 'L'

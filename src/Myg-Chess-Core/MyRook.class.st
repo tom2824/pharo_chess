@@ -5,7 +5,7 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'rendering' }
 MyRook >> blackLetter [
 
 	^ 'T'

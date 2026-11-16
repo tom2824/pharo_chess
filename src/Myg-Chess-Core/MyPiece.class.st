@@ -27,7 +27,6 @@ MyPiece class >> white [
 
 { #category : 'path commands' }
 MyPiece >> afterMoveFrom: aSquare [
-	"Hook called once the move is done. By default, a move cancels any pending en passant."
 
 	self board enPassantSquare: nil
 ]
@@ -38,7 +37,7 @@ MyPiece >> attackingSquares [
 	^ self legalTargetSquares
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'rendering' }
 MyPiece >> blackLetter [
 
 	^ self subclassResponsibility

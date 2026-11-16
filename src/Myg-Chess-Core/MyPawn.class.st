@@ -32,7 +32,7 @@ MyPawn >> backwardFrom: aSquare [
 		  ifFalse: [ aSquare up ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'rendering' }
 MyPawn >> blackLetter [
 
 	^ 'O'
