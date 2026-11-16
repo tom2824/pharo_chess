@@ -8,7 +8,8 @@ Class {
 		'state',
 		'whiteColor',
 		'blackColor',
-		'game'
+		'game',
+		'enPassantSquare'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
@@ -71,6 +72,18 @@ MyChessBoard >> blackColor: anObject [
 MyChessBoard >> click: aMyChessSquare [ 
 	
 	state := state clickOn: aMyChessSquare
+]
+
+{ #category : 'accessing' }
+MyChessBoard >> enPassantSquare [
+
+	^ enPassantSquare
+]
+
+{ #category : 'accessing' }
+MyChessBoard >> enPassantSquare: aSquare [
+
+	enPassantSquare := aSquare
 ]
 
 { #category : 'accessing' }
