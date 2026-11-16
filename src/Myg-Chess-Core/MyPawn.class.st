@@ -5,6 +5,17 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'path commands' }
+MyPawn >> afterMoveFrom: origin [
+
+	| skipped |
+	skipped := self forwardFrom: origin.
+	self board enPassantSquare:
+		((self forwardFrom: skipped) = square
+			 ifTrue: [ skipped ]
+			 ifFalse: [ nil ])
+]
+
 { #category : 'rendering' }
 MyPawn >> attackingSquares [
 

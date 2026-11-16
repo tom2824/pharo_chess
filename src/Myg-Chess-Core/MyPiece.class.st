@@ -25,6 +25,13 @@ MyPiece class >> white [
 		  yourself
 ]
 
+{ #category : 'path commands' }
+MyPiece >> afterMoveFrom: aSquare [
+	"Hook called once the move is done. By default, a move cancels any pending en passant."
+
+	self board enPassantSquare: nil
+]
+
 { #category : 'as yet unclassified' }
 MyPiece >> attackingSquares [
 
@@ -164,11 +171,14 @@ MyPiece >> legalTargetSquares [
 { #category : 'path commands' }
 MyPiece >> moveTo: aSquare [
 
+	| origin |
 	(self legalTargetSquares includes: aSquare) ifFalse: [ ^ self ].
 
+	origin := square.
 	square emptyContents.
 	square := aSquare.
-	aSquare contents: self
+	aSquare contents: self.
+	self afterMoveFrom: origin
 ]
 
 { #category : 'rendering' }
