@@ -5,6 +5,14 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'as yet unclassified' }
+MyPawn >> forwardFrom: aSquare [
+
+	^ self isWhite
+		  ifTrue: [ aSquare up ]
+		  ifFalse: [ aSquare down ]
+]
+
 { #category : 'accessing' }
 MyPawn >> id [
 
@@ -14,7 +22,9 @@ MyPawn >> id [
 { #category : 'testing' }
 MyPawn >> isOnInitialRank [
 
-	^ square file = (self isWhite ifTrue: [ $2 ] ifFalse: [ $7 ])
+	^ square file = (self isWhite
+		   ifTrue: [ $2 ]
+		   ifFalse: [ $7 ])
 ]
 
 { #category : 'rendering' }
@@ -26,16 +36,13 @@ MyPawn >> renderPieceOn: aSquare [
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
 
-	| forward squares |
-	forward := self isWhite
-		           ifTrue: [ square up ]
-		           ifFalse: [ square down ].
-	squares := OrderedCollection new.
-	(forward notNil and: [ forward hasPiece not ]) ifTrue: [
-		squares add: forward.
-		(self isOnInitialRank and: [ 
-			 (self isWhite ifTrue: [ forward up ] ifFalse: [ forward down ]) 
-				 ifNotNil: [ :two | two hasPiece not ] ifNil: [ false ] ]) ifTrue: [ 
-			squares add: (self isWhite ifTrue: [ forward up ] ifFalse: [ forward down ]) ] ].
-	^ squares
+	| oneStep twoSteps |
+	oneStep := self forwardFrom: square.
+	(oneStep notNil and: [ oneStep hasPiece not ]) ifFalse: [ ^ #(  ) ].
+
+	twoSteps := self forwardFrom: oneStep.
+	^ (self isOnInitialRank and: [
+		   twoSteps notNil and: [ twoSteps hasPiece not ] ])
+		  ifTrue: [ { oneStep. twoSteps } ]
+		  ifFalse: [ { oneStep } ]
 ]
