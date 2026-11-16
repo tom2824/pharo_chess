@@ -6,14 +6,25 @@ Class {
 }
 
 { #category : 'rendering' }
+MyPawn >> attackingSquares [
+
+	^ self diagonalSquares
+]
+
+{ #category : 'rendering' }
 MyPawn >> captureSquares [
+
+	^ self diagonalSquares select: [ :aSquare |
+		  aSquare hasPiece and: [ aSquare contents color ~= color ] ]
+]
+
+{ #category : 'rendering' }
+MyPawn >> diagonalSquares [
 
 	| ahead |
 	ahead := self forwardFrom: square.
 	ahead ifNil: [ ^ #(  ) ].
-	^ { ahead left. ahead right } select: [ :aSquare |
-		  aSquare notNil and: [
-			  aSquare hasPiece and: [ aSquare contents color ~= color ] ] ]
+	^ { ahead left. ahead right } select: [ :aSquare | aSquare notNil ]
 ]
 
 { #category : 'rendering' }
