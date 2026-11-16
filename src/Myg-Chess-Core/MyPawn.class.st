@@ -11,6 +11,12 @@ MyPawn >> id [
 	^ 'P'
 ]
 
+{ #category : 'testing' }
+MyPawn >> isOnInitialRank [
+
+	^ square file = (self isWhite ifTrue: [ $2 ] ifFalse: [ $7 ])
+]
+
 { #category : 'rendering' }
 MyPawn >> renderPieceOn: aSquare [ 
 	
@@ -20,9 +26,16 @@ MyPawn >> renderPieceOn: aSquare [
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
 
-	^ (self isWhite
-		   ifTrue: [ { square up } ]
-		   ifFalse: [ { square down } ]) select: [ :s |
-		  s notNil and: [
-			  s hasPiece not or: [ s contents color ~= color ] ] ]
+	| forward squares |
+	forward := self isWhite
+		           ifTrue: [ square up ]
+		           ifFalse: [ square down ].
+	squares := OrderedCollection new.
+	(forward notNil and: [ forward hasPiece not ]) ifTrue: [
+		squares add: forward.
+		(self isOnInitialRank and: [ 
+			 (self isWhite ifTrue: [ forward up ] ifFalse: [ forward down ]) 
+				 ifNotNil: [ :two | two hasPiece not ] ifNil: [ false ] ]) ifTrue: [ 
+			squares add: (self isWhite ifTrue: [ forward up ] ifFalse: [ forward down ]) ] ].
+	^ squares
 ]
