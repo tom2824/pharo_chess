@@ -126,6 +126,7 @@ MyChessGame >> initializeFromFENGame: aFENGame [
 { #category : 'public' }
 MyChessGame >> move: piece to: square [
 
+	(piece canMoveTo: square) ifFalse: [ ^ self ].
 	piece moveTo: square.
 	self recordMovementOf: piece to: square
 ]

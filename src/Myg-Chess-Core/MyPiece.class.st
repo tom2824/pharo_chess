@@ -44,6 +44,12 @@ MyPiece >> board [
 	^ square board
 ]
 
+{ #category : 'path commands' }
+MyPiece >> canMoveTo: aSquare [
+
+	^ self legalTargetSquares includes: aSquare
+]
+
 { #category : 'rendering' }
 MyPiece >> collectSquares: aBlock [
 
@@ -172,7 +178,7 @@ MyPiece >> legalTargetSquares [
 MyPiece >> moveTo: aSquare [
 
 	| origin |
-	(self legalTargetSquares includes: aSquare) ifFalse: [ ^ self ].
+	(self canMoveTo: aSquare) ifFalse: [ ^ self ].
 
 	origin := square.
 	square emptyContents.
