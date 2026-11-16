@@ -104,6 +104,20 @@ MyBoardEdgeTests >> testKnightOnTheSideMovesOnlyOnTheBoard [
 ]
 
 { #category : 'tests' }
+MyBoardEdgeTests >> testNavigatingOutsideTheBoardNeverFails [
+
+	| board outside |
+	board := MyChessBoard empty.
+
+	outside := (board at: 'a1') left.
+	self deny: outside isOnBoard.
+
+	self deny: outside up isOnBoard.
+	self deny: outside down left right isOnBoard.
+	self deny: outside hasPiece
+]
+
+{ #category : 'tests' }
 MyBoardEdgeTests >> testNilPieceHasNoTarget [
 
 	self assert: MyNilPiece new targetSquares isEmpty.
@@ -165,6 +179,16 @@ MyBoardEdgeTests >> testRookIsBlockedByAPieceAndCapturesOpponent [
 	self
 		assertSquares: rook legalTargetSquares
 		areNamed: #( 'a2' 'a3' 'b1' )
+]
+
+{ #category : 'tests' }
+MyBoardEdgeTests >> testSquareBeyondTheEdgeIsNotOnBoard [
+
+	| board |
+	board := MyChessBoard empty.
+
+	self assert: (board at: 'e4') up isOnBoard.
+	self deny: (board at: 'e8') up isOnBoard
 ]
 
 { #category : 'tests' }

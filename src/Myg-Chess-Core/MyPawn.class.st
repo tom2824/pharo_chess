@@ -54,8 +54,7 @@ MyPawn >> diagonalSquares [
 
 	| ahead |
 	ahead := self forwardFrom: square.
-	ahead ifNil: [ ^ #(  ) ].
-	^ { ahead left. ahead right } select: [ :aSquare | aSquare notNil ]
+	^ { ahead left. ahead right } select: #isOnBoard
 ]
 
 { #category : 'rendering' }
@@ -71,11 +70,11 @@ MyPawn >> forwardSquares [
 
 	| oneStep twoSteps |
 	oneStep := self forwardFrom: square.
-	(oneStep notNil and: [ oneStep hasPiece not ]) ifFalse: [ ^ #(  ) ].
+	(oneStep isOnBoard and: [ oneStep hasPiece not ]) ifFalse: [ ^ #(  ) ].
 
 	twoSteps := self forwardFrom: oneStep.
 	^ (self isOnInitialRank and: [
-		   twoSteps notNil and: [ twoSteps hasPiece not ] ])
+		   twoSteps isOnBoard and: [ twoSteps hasPiece not ] ])
 		  ifTrue: [ { oneStep. twoSteps } ]
 		  ifFalse: [ { oneStep } ]
 ]
