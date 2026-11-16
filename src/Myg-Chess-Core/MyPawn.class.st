@@ -9,6 +9,8 @@ Class {
 MyPawn >> afterMoveFrom: origin [
 
 	| skipped |
+	(self canCaptureEnPassantOn: square) ifTrue: [ self removeEnPassantVictim ].
+
 	skipped := self forwardFrom: origin.
 	self board enPassantSquare:
 		((self forwardFrom: skipped) = square
@@ -20,6 +22,14 @@ MyPawn >> afterMoveFrom: origin [
 MyPawn >> attackingSquares [
 
 	^ self diagonalSquares
+]
+
+{ #category : 'rendering' }
+MyPawn >> backwardFrom: aSquare [
+
+	^ self isWhite
+		  ifTrue: [ aSquare down ]
+		  ifFalse: [ aSquare up ]
 ]
 
 { #category : 'rendering' }
@@ -82,6 +92,12 @@ MyPawn >> isOnInitialRank [
 	^ square file = (self isWhite
 		   ifTrue: [ $2 ]
 		   ifFalse: [ $7 ])
+]
+
+{ #category : 'rendering' }
+MyPawn >> removeEnPassantVictim [
+
+	(self backwardFrom: square) emptyContents
 ]
 
 { #category : 'rendering' }

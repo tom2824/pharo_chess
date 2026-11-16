@@ -55,6 +55,35 @@ MyEnPassantTests >> testDoubleStepSetsEnPassantSquare [
 ]
 
 { #category : 'tests' }
+MyEnPassantTests >> testEnPassantCaptureClearsEnPassantSquare [
+
+	| board white black |
+	board := MyChessBoard empty.
+	board at: 'e5' put: (white := MyPawn white).
+	board at: 'd7' put: (black := MyPawn black).
+
+	black moveTo: (board at: 'd5').
+	white moveTo: (board at: 'd6').
+
+	self assert: board enPassantSquare isNil
+]
+
+{ #category : 'tests' }
+MyEnPassantTests >> testEnPassantCaptureRemovesCapturedPawn [
+
+	| board white black |
+	board := MyChessBoard empty.
+	board at: 'e5' put: (white := MyPawn white).
+	board at: 'd7' put: (black := MyPawn black).
+
+	black moveTo: (board at: 'd5').
+	white moveTo: (board at: 'd6').
+
+	self assert: (board at: 'd6') contents equals: white.
+	self deny: (board at: 'd5') hasPiece
+]
+
+{ #category : 'tests' }
 MyEnPassantTests >> testEnPassantSquareCanBeSet [
 
 	| board |
@@ -62,6 +91,19 @@ MyEnPassantTests >> testEnPassantSquareCanBeSet [
 	board enPassantSquare: (board at: 'e3').
 
 	self assert: board enPassantSquare equals: (board at: 'e3')
+]
+
+{ #category : 'tests' }
+MyEnPassantTests >> testNormalPawnMoveDoesNotRemoveNeighbourPawn [
+
+	| board white black |
+	board := MyChessBoard empty.
+	board at: 'e4' put: (white := MyPawn white).
+	board at: 'd5' put: (black := MyPawn black).
+
+	white moveTo: (board at: 'e5').
+
+	self assert: (board at: 'd5') contents equals: black
 ]
 
 { #category : 'tests' }
